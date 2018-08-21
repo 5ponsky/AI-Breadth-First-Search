@@ -17,6 +17,7 @@ class Main {
 
 		GameState c = new GameState(null);
 		c.state[21] = 7;
+		System.out.println(c.state[21]);
 
 		if(!set.contains(a))
 			System.out.println("Passed 1");
