@@ -14,13 +14,21 @@ class GameState {
     // So each byte represents one coordinate of each piece
     state = new byte[22];
     constraints = new boolean[10][10];
-    init_board();
 
     // blank/starting board (That is, if we are at the root)
-    // if(_prev == null) {
-    //   constraints = new boolean[10][10];
-    //   init_board();
-    // }
+    if(_prev == null) {
+      init_board();
+    } else {
+      for(int i = 0; i < state.length; ++i)
+        this.state[i] = prev.state[i];
+
+      for(int i = 0; i < constraints.length; ++i) {
+        for(int j = 0; j < constraints[i].length; ++j) {
+          this.constraints[i][j] = prev.constraints[i][j];
+        }
+      }
+
+    }
 
   }
 
@@ -245,12 +253,94 @@ class GameState {
     // bottom right inner corner
     constraints[7][8] = true;
     constraints[8][7] = true;
-    constraints[8][9] = true;
+    constraints[8][8] = true;
 
     // inner block
     constraints[4][3] = true;
     constraints[4][4] = true;
     constraints[3][4] = true;
+
+    block0(true, 0, 0);
+    block1(true, 0, 0);
+    block2(true, 0, 0);
+    block3(true, 0, 0);
+    block4(true, 0, 0);
+    block5(true, 0, 0);
+    block6(true, 0, 0);
+    block7(true, 0, 0);
+    block8(true, 0, 0);
+    block9(true, 0, 0);
+    block10(true, 0, 0);
+  }
+
+  void block0(boolean flag, int x, int y) {
+    constraints[3 + y][1 + x] = flag;
+    constraints[3 + y][2 + x] = flag;
+    constraints[4 + y][1 + x] = flag;
+    constraints[4 + y][2 + x] = flag;
+  }
+
+  void block1(boolean flag, int x, int y) {
+    constraints[5 + y][1 + x] = flag;
+    constraints[6 + y][2 + x] = flag;
+    constraints[6 + y][2 + x] = flag;
+  }
+
+  void block2(boolean flag, int x, int y) {
+    constraints[5 + y][2 + x] = flag;
+    constraints[5 + y][3 + x] = flag;
+    constraints[6 + y][3 + x] = flag;
+  }
+
+  void block3(boolean flag, int x, int y) {
+    constraints[7 + y][3 + x] = flag;
+    constraints[8 + y][3 + x] = flag;
+    constraints[8 + y][4 + x] = flag;
+  }
+
+  void block4(boolean flag, int x, int y) {
+    constraints[7 + y][4 + x] = flag;
+    constraints[7 + y][5 + x] = flag;
+    constraints[8 + y][5 + x] = flag;
+  }
+
+  void block5(boolean flag, int x, int y) {
+    constraints[7 + y][6 + x] = flag;
+    constraints[8 + y][6 + x] = flag;
+    constraints[7 + y][7 + x] = flag;
+  }
+
+  void block6(boolean flag, int x, int y) {
+    constraints[5 + y][4 + x] = flag;
+    constraints[4 + y][5 + x] = flag;
+    constraints[5 + y][5 + x] = flag;
+    constraints[6 + y][5 + x] = flag;
+  }
+
+  void block7(boolean flag, int x, int y) {
+    constraints[4 + y][6 + x] = flag;
+    constraints[5 + y][6 + x] = flag;
+    constraints[6 + y][6 + x] = flag;
+    constraints[5 + y][7 + x] = flag;
+  }
+
+  void block8(boolean flag, int x, int y) {
+    constraints[5 + y][4 + x] = flag;
+    constraints[4 + y][5 + x] = flag;
+    constraints[5 + y][5 + x] = flag;
+    constraints[6 + y][5 + x] = flag;
+  }
+
+  void block9(boolean flag, int x, int y) {
+    constraints[3 + y][5 + x] = flag;
+    constraints[2 + y][6 + x] = flag;
+    constraints[3 + y][6 + x] = flag;
+  }
+
+  void block10(boolean flag, int x, int y) {
+    constraints[1 + y][5 + x] = flag;
+    constraints[2 + y][5 + x] = flag;
+    constraints[1 + y][6 + x] = flag;
   }
 
 }
