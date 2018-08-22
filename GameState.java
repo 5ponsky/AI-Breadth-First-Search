@@ -18,18 +18,24 @@ class GameState {
     // blank/starting board (That is, if we are at the root)
     if(_prev == null) {
       init_board();
-    } else {
-      for(int i = 0; i < state.length; ++i)
-        this.state[i] = prev.state[i];
+    // } else {
+    //   for(int i = 0; i < state.length; ++i)
+    //     this.state[i] = prev.state[i];
+    //
+    //   for(int i = 0; i < constraints.length; ++i) {
+    //     for(int j = 0; j < constraints[i].length; ++j) {
+    //       this.constraints[i][j] = prev.constraints[i][j];
+    //     }
+    //   }
+    //
+    // }
 
-      for(int i = 0; i < constraints.length; ++i) {
-        for(int j = 0; j < constraints[i].length; ++j) {
-          this.constraints[i][j] = prev.constraints[i][j];
-        }
-      }
+  }
 
+  boolean moveTile() {
+    for(int i = 0; i < 22; ++i) {
+      if(coordinateIndex == i)
     }
-
   }
 
   // Transform the state by moving a block a single step in a direction

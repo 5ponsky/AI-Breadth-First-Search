@@ -1,8 +1,23 @@
 import java.util.Comparator;
 import java.util.TreeSet;
+import java.util.Queue;
 
 
 class Main {
+
+
+
+	void bfs(graph, root) {
+		// Empty set set S
+		StateComparator comparator = new StateComparator();
+		TreeSet<GameState> set = new TreeSet<GameState>(comp);
+
+		// Empty Queue Q
+
+		
+		root.parent = null;
+
+	}
 
 
 	public static void main(String[] args) {
