@@ -14,56 +14,74 @@ import java.awt.event.MouseEvent;
 import java.util.Random;
 import java.awt.Color;
 
+import java.util.Comparator;
+import java.util.TreeSet;
+
 @SuppressWarnings("serial")
 class View extends JPanel implements MouseListener {
 	Viz viz;
 	Random rand;
-	byte[] state;
 	Graphics graphics;
 	int size;
 	boolean[][] constraints;
 	GameState gs;
+	GameBoard gb;
+	StateComparator comp;
+	TreeSet<GameState> set;
+
 
 	View(Viz v) throws IOException {
 		viz = v;
-		rand = new Random(0);
-		state = new byte[22];
+		rand = new Random(3);
 		size = 48;
-		constraints = new boolean[10][10];
-		gs = new GameState();
+		gs = new GameState(null);
+		gb = new GameBoard();
+
+		comp = new StateComparator();
+		set = new TreeSet<GameState>(comp);
+
+		// for(int i = 0; i < gb.board.length; ++i) {
+		// 	for(int j = 0; j < gb.board[i].length; ++j) {
+		// 		System.out.print((gb.board[i][j]?1:0) + " ");
+		// 	}
+		// 	System.out.println();
+		// }
+		// System.out.println("=============================================");
 	}
 
 	public void mousePressed(MouseEvent e) {
-		// How to transform state
-		//int choice = rand.nextInt(22);
-		//int move = rand.nextInt(2)  == 0 ? -1 : 1;
-		init_board();
-		// for(int i = 0; i < state.length; ++i) {
-		// 	validState(i,0);
-		// }
+		GameState _gs = new GameState(gs);
 
-		int choice = 20;
-		int move = -1;
-		if(validState(choice, move))
-			state[choice] += (move);
+		for(int i = 0; i < 22; ++i) {
+			_gs.state[i] += 1;
+			if(gb.isValid(_gs.state) == 666 && !set.contains(_gs))
+				break;
 
-		// Valid move logic here
+			_gs.state[i] += -2;
+			if(gb.isValid(_gs.state) == 666 && !set.contains(_gs))
+				break;
+
+			_gs.state[i] += 1;
+		}
+		set.add(_gs);
+
+		gs = new GameState(_gs);
 
 
 		for(int i = 0; i < 11; i++)
-		System.out.print("(" + state[2 * i] + "," +
-			state[2 * i + 1] + ") ");
+		System.out.print("(" + gs.state[2 * i] + "," +
+			gs.state[2 * i + 1] + ") ");
 		System.out.println();
 
 		viz.repaint();
 
-		for(int i = 0; i < constraints.length; ++i) {
-			for(int j = 0; j < constraints[i].length; ++j) {
-				System.out.print((constraints[i][j]?1:0) + " ");
-			}
-			System.out.println();
-		}
-		System.out.println("=============================================");
+		// for(int i = 0; i < gb.board.length; ++i) {
+		// 	for(int j = 0; j < gb.board[i].length; ++j) {
+		// 		System.out.print((gb.board[i][j]?1:0) + " ");
+		// 	}
+		// 	System.out.println();
+		// }
+		// System.out.println("=============================================");
 	}
 
 	public void mouseReleased(MouseEvent e) {    }
@@ -80,9 +98,9 @@ class View extends JPanel implements MouseListener {
 	public void shape(int id, int red, int green, int blue,
 		int x1, int y1, int x2, int y2, int x3, int y3) {
 		graphics.setColor(new Color(red, green, blue));
-		b(state[2 * id] + x1, state[2 * id + 1] + y1);
-		b(state[2 * id] + x2, state[2 * id + 1] + y2);
-		b(state[2 * id] + x3, state[2 * id + 1] + y3);
+		b(gs.state[2 * id] + x1, gs.state[2 * id + 1] + y1);
+		b(gs.state[2 * id] + x2, gs.state[2 * id + 1] + y2);
+		b(gs.state[2 * id] + x3, gs.state[2 * id + 1] + y3);
 	}
 
 	// Draw a 4-block piece
@@ -90,7 +108,7 @@ class View extends JPanel implements MouseListener {
 		int x2, int y2, int x3, int y3, int x4, int y4) {
 
 		shape(id, red, green, blue, x1, y1, x2, y2, x3, y3);
-		b(state[2 * id] + x4, state[2 * id + 1] + y4);
+		b(gs.state[2 * id] + x4, gs.state[2 * id + 1] + y4);
 	}
 
 	public void paintComponent(Graphics g) {
