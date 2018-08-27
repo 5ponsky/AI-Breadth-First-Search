@@ -44,72 +44,82 @@ class GameBoard {
     board[3][4] = true;
   }
 
-  int isValid(byte[] state) {
+  boolean completed(GameState gs) {
+    if(gs.state[1] == -2) {
+      System.out.println("DOOOOOOOOOOONE");
+      System.out.println("DOOOOOOOOOOONE");
+      System.out.println("DOOOOOOOOOOONE");
+      System.out.println("DOOOOOOOOOOONE");
+      return true;
+    }
+    return false;
+  }
+
+  boolean isValid(byte[] state) {
     // test if each block fits according to its original posotion
 
     // Reset GameBoard
     reset();
 
     // Block 0
-    if(board[3 + state[1]][1 + state[0]] == true) return 0; else board[3 + state[1]][1 + state[0]] = true;
-    if(board[4 + state[1]][1 + state[0]] == true) return 0; else board[4 + state[1]][1 + state[0]] = true;
-    if(board[3 + state[1]][2 + state[0]] == true) return 0; else board[3 + state[1]][2 + state[0]] = true;
-    if(board[4 + state[1]][2 + state[0]] == true) return 0; else board[4 + state[1]][2 + state[0]] = true;
+    if(board[3 + state[1]][1 + state[0]] == true) return false; else board[3 + state[1]][1 + state[0]] = true;
+    if(board[4 + state[1]][1 + state[0]] == true) return false; else board[4 + state[1]][1 + state[0]] = true;
+    if(board[3 + state[1]][2 + state[0]] == true) return false; else board[3 + state[1]][2 + state[0]] = true;
+    if(board[4 + state[1]][2 + state[0]] == true) return false; else board[4 + state[1]][2 + state[0]] = true;
 
     // Block 1
-    if(board[5 + state[3]][1 + state[2]] == true) return 1; else board[5 + state[3]][1 + state[2]] = true;
-    if(board[6 + state[3]][1 + state[2]] == true) return 1; else board[6 + state[3]][1 + state[2]] = true;
-    if(board[6 + state[3]][2 + state[2]] == true) return 1; else board[6 + state[3]][2 + state[2]] = true;
+    if(board[5 + state[3]][1 + state[2]] == true) return false; else board[5 + state[3]][1 + state[2]] = true;
+    if(board[6 + state[3]][1 + state[2]] == true) return false; else board[6 + state[3]][1 + state[2]] = true;
+    if(board[6 + state[3]][2 + state[2]] == true) return false; else board[6 + state[3]][2 + state[2]] = true;
 
     // Block 2
-    if(board[5 + state[5]][2 + state[4]] == true) return 2; else board[5 + state[5]][2 + state[4]] = true;
-    if(board[5 + state[5]][3 + state[4]] == true) return 2; else board[5 + state[5]][3 + state[4]] = true;
-    if(board[6 + state[5]][3 + state[4]] == true) return 2; else board[6 + state[5]][3 + state[4]] = true;
+    if(board[5 + state[5]][2 + state[4]] == true) return false; else board[5 + state[5]][2 + state[4]] = true;
+    if(board[5 + state[5]][3 + state[4]] == true) return false; else board[5 + state[5]][3 + state[4]] = true;
+    if(board[6 + state[5]][3 + state[4]] == true) return false; else board[6 + state[5]][3 + state[4]] = true;
 
     // Block 3
-    if(board[7 + state[7]][3 + state[6]] == true) return 3; else board[7 + state[7]][3 + state[6]] = true;
-    if(board[8 + state[7]][3 + state[6]] == true) return 3; else board[8 + state[7]][3 + state[6]] = true;
-    if(board[8 + state[7]][4 + state[6]] == true) return 3; else board[8 + state[7]][4 + state[6]] = true;
+    if(board[7 + state[7]][3 + state[6]] == true) return false; else board[7 + state[7]][3 + state[6]] = true;
+    if(board[8 + state[7]][3 + state[6]] == true) return false; else board[8 + state[7]][3 + state[6]] = true;
+    if(board[8 + state[7]][4 + state[6]] == true) return false; else board[8 + state[7]][4 + state[6]] = true;
 
     // Block 4
-    if(board[7 + state[9]][4 + state[8]] == true) return 4; else board[7 + state[9]][4 + state[8]] = true;
-    if(board[7 + state[9]][5 + state[8]] == true) return 4; else board[7 + state[9]][5 + state[8]] = true;
-    if(board[8 + state[9]][5 + state[8]] == true) return 4; else board[8 + state[9]][5 + state[8]] = true;
+    if(board[7 + state[9]][4 + state[8]] == true) return false; else board[7 + state[9]][4 + state[8]] = true;
+    if(board[7 + state[9]][5 + state[8]] == true) return false; else board[7 + state[9]][5 + state[8]] = true;
+    if(board[8 + state[9]][5 + state[8]] == true) return false; else board[8 + state[9]][5 + state[8]] = true;
 
     // Block 5
-    if(board[7 + state[11]][6 + state[10]] == true) return 5; else board[7 + state[11]][6 + state[10]] = true;
-    if(board[8 + state[11]][6 + state[10]] == true) return 5; else board[8 + state[11]][6 + state[10]] = true;
-    if(board[7 + state[11]][7 + state[10]] == true) return 5; else board[7 + state[11]][7 + state[10]] = true;
+    if(board[7 + state[11]][6 + state[10]] == true) return false; else board[7 + state[11]][6 + state[10]] = true;
+    if(board[8 + state[11]][6 + state[10]] == true) return false; else board[8 + state[11]][6 + state[10]] = true;
+    if(board[7 + state[11]][7 + state[10]] == true) return false; else board[7 + state[11]][7 + state[10]] = true;
 
     // Block 6
-    if(board[4 + state[13]][5 + state[12]] == true) return 6; else board[4 + state[13]][5 + state[12]] = true;
-    if(board[5 + state[13]][4 + state[12]] == true) return 6; else board[5 + state[13]][4 + state[12]] = true;
-    if(board[5 + state[13]][5 + state[12]] == true) return 6; else board[5 + state[13]][5 + state[12]] = true;
-    if(board[6 + state[13]][5 + state[12]] == true) return 6; else board[6 + state[13]][5 + state[12]] = true;
+    if(board[4 + state[13]][5 + state[12]] == true) return false; else board[4 + state[13]][5 + state[12]] = true;
+    if(board[5 + state[13]][4 + state[12]] == true) return false; else board[5 + state[13]][4 + state[12]] = true;
+    if(board[5 + state[13]][5 + state[12]] == true) return false; else board[5 + state[13]][5 + state[12]] = true;
+    if(board[6 + state[13]][5 + state[12]] == true) return false; else board[6 + state[13]][5 + state[12]] = true;
 
     // Block 7
-    if(board[4 + state[15]][6 + state[14]] == true) return 7; else board[4 + state[15]][6 + state[14]] = true;
-    if(board[5 + state[15]][6 + state[14]] == true) return 7; else board[5 + state[15]][6 + state[14]] = true;
-    if(board[6 + state[15]][6 + state[14]] == true) return 7; else board[6 + state[15]][6 + state[14]] = true;
-    if(board[5 + state[15]][7 + state[14]] == true) return 7; else board[5 + state[15]][7 + state[14]] = true;
+    if(board[4 + state[15]][6 + state[14]] == true) return false; else board[4 + state[15]][6 + state[14]] = true;
+    if(board[5 + state[15]][6 + state[14]] == true) return false; else board[5 + state[15]][6 + state[14]] = true;
+    if(board[6 + state[15]][6 + state[14]] == true) return false; else board[6 + state[15]][6 + state[14]] = true;
+    if(board[5 + state[15]][7 + state[14]] == true) return false; else board[5 + state[15]][7 + state[14]] = true;
 
     // Block 8
-    if(board[6 + state[17]][7 + state[16]] == true) return 8; else board[6 + state[17]][7 + state[16]] = true;
-    if(board[6 + state[17]][8 + state[16]] == true) return 8; else board[6 + state[17]][8 + state[16]] = true;
-    if(board[5 + state[17]][8 + state[16]] == true) return 8; else board[5 + state[17]][8 + state[16]] = true;
+    if(board[6 + state[17]][7 + state[16]] == true) return false; else board[6 + state[17]][7 + state[16]] = true;
+    if(board[6 + state[17]][8 + state[16]] == true) return false; else board[6 + state[17]][8 + state[16]] = true;
+    if(board[5 + state[17]][8 + state[16]] == true) return false; else board[5 + state[17]][8 + state[16]] = true;
 
     // Block 9
-    if(board[3 + state[19]][5 + state[18]] == true) return 9; else board[3 + state[19]][5 + state[18]] = true;
-    if(board[3 + state[19]][6 + state[18]] == true) return 9; else board[3 + state[19]][6 + state[18]] = true;
-    if(board[2 + state[19]][6 + state[18]] == true) return 9; else board[2 + state[19]][6 + state[18]] = true;
+    if(board[3 + state[19]][5 + state[18]] == true) return false; else board[3 + state[19]][5 + state[18]] = true;
+    if(board[3 + state[19]][6 + state[18]] == true) return false; else board[3 + state[19]][6 + state[18]] = true;
+    if(board[2 + state[19]][6 + state[18]] == true) return false; else board[2 + state[19]][6 + state[18]] = true;
 
     // Block 10
-    if(board[2 + state[21]][5 + state[20]] == true) return 10; else board[2 + state[21]][5 + state[20]] = true;
-    if(board[1 + state[21]][5 + state[20]] == true) return 10; else board[1 + state[21]][5 + state[20]] = true;
-    if(board[1 + state[21]][6 + state[20]] == true) return 10; else board[1 + state[21]][6 + state[20]] = true;
+    if(board[2 + state[21]][5 + state[20]] == true) return false; else board[2 + state[21]][5 + state[20]] = true;
+    if(board[1 + state[21]][5 + state[20]] == true) return false; else board[1 + state[21]][5 + state[20]] = true;
+    if(board[1 + state[21]][6 + state[20]] == true) return false; else board[1 + state[21]][6 + state[20]] = true;
 
-    System.out.println("Found one!");
-    return 666;
+    return true;
   }
 
   void reset() {

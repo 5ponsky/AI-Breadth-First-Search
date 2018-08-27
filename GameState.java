@@ -18,20 +18,16 @@ class GameState {
       for(int i = 0; i < state.length; ++i)
         this.state[i] = prev.state[i];
     }
-    // blank/starting board (That is, if we are at the root)
+  }
 
-    // } else {
-    //   for(int i = 0; i < state.length; ++i)
-    //     this.state[i] = prev.state[i];
-    //
-    //   for(int i = 0; i < constraints.length; ++i) {
-    //     for(int j = 0; j < constraints[i].length; ++j) {
-    //       this.constraints[i][j] = prev.constraints[i][j];
-    //     }
-    //   }
-    //
-    // }
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < 11; i++) {
+			sb.append("(" + Byte.toString(state[2 * i]) + ","
+        + Byte.toString(state[2 * i + 1]) + ") ");
 
+		}
+		return sb.toString();
   }
 
 }
