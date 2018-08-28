@@ -46,10 +46,7 @@ class GameBoard {
 
   boolean completed(GameState gs) {
     if(gs.state[1] == -2) {
-      System.out.println("DOOOOOOOOOOONE");
-      System.out.println("DOOOOOOOOOOONE");
-      System.out.println("DOOOOOOOOOOONE");
-      System.out.println("DOOOOOOOOOOONE");
+      System.out.println("Solution found!");
       return true;
     }
     return false;

@@ -1,10 +1,12 @@
+import java.io.PrintWriter;
+import java.io.IOException;
+import java.lang.StringBuffer;
 import java.util.Comparator;
 import java.util.TreeSet;
 import java.util.Queue;
 import java.util.Stack;
 import java.util.Iterator;
 import java.util.LinkedList;
-
 
 class Main {
 
@@ -28,8 +30,14 @@ class Main {
 
 		int x = 0;
 		boolean done = false;
+		GameState current = root;
 		while(!done) {
-			GameState current = queue.poll();
+			current = queue.poll();
+
+			// Check if this state is the completed one
+			if(gb.completed(current)) {
+				break;
+			}
 
 			GameState newState;
 			for(int i = 0; i < 22; ++i) {
@@ -38,14 +46,7 @@ class Main {
 				newState.state[i] += 1;
 				if(gb.isValid(newState.state) && !set.contains(newState)) {
 					set.add(newState);
-					queue.push(newState);
-
-					// Check if this state is the completed one
-					if(gb.completed(current)) {
-						done = true;
-						break;
-					}
-
+					queue.add(newState);
 					newState = new GameState(current);
 				} else
 					newState.state[i] += -1;
@@ -53,25 +54,15 @@ class Main {
 				newState.state[i] += -1;
 				if(gb.isValid(newState.state) && !set.contains(newState)) {
 					set.add(newState);
-					queue.push(newState);
-
-					// Check if this state is the completed one
-					if(gb.completed(current)) {
-						done = true;
-						break;
-					}
-				} else
-					newState.state[i] += 1;
-			}
-
-				++x;
-				if(x > 500) done = true;
-
-				if(done) {
-					writeSolution(current);
-					break;
+					queue.add(newState);
 				}
 			}
+
+			++x;
+			//if(x > 500) done = true;
+		}
+		writeSolution(current);
+
 
 		//
 		// for(GameState g : set) {
@@ -89,12 +80,26 @@ class Main {
 			current = current.prev;
 		}
 
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		int x = 0;
-		while(!stack.empty()) {
-			sb.append(x + " " + stack.pop().toString() + '\n');
-			++x;
+
+		boolean visualizer = false; // set to true to visualize the solution set
+		if(!visualizer) {
+			while(!stack.empty()) {
+				sb.append(stack.pop().toString() + '\n');
+				//++x
+			}
+
+			try {
+				PrintWriter out = new PrintWriter("results.txt");
+				out.println(sb);
+				out.close();
+			} catch(IOException e) { e.printStackTrace(); }
+
+		} else {
+			try { new Viz(stack); } catch(Exception e) {}
 		}
+
 		System.out.println(sb);
 	}
 

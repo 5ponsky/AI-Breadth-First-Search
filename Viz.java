@@ -13,75 +13,34 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 import java.awt.Color;
+import java.util.Stack;
 
-import java.util.Comparator;
-import java.util.TreeSet;
-
-@SuppressWarnings("serial")
 class View extends JPanel implements MouseListener {
 	Viz viz;
 	Random rand;
+	byte[] state;
 	Graphics graphics;
 	int size;
-	boolean[][] constraints;
-	GameState gs;
-	GameBoard gb;
-	StateComparator comp;
-	TreeSet<GameState> set;
 
-
-	View(Viz v) throws IOException {
+	View(Viz v) throws IOException
+	{
 		viz = v;
-		rand = new Random(3);
+		rand = new Random(0);
 		size = 48;
-		gs = new GameState(null);
-		gb = new GameBoard();
-
-		comp = new StateComparator();
-		set = new TreeSet<GameState>(comp);
-
-		// for(int i = 0; i < gb.board.length; ++i) {
-		// 	for(int j = 0; j < gb.board[i].length; ++j) {
-		// 		System.out.print((gb.board[i][j]?1:0) + " ");
-		// 	}
-		// 	System.out.println();
-		// }
-		// System.out.println("=============================================");
+		state = viz.stack.pop().state;
 	}
 
-	public void mousePressed(MouseEvent e) {
-		GameState _gs = new GameState(gs);
-
-		for(int i = 0; i < 22; ++i) {
-			_gs.state[i] += 1;
-			if(gb.isValid(_gs.state) == 666 && !set.contains(_gs))
-				break;
-
-			_gs.state[i] += -2;
-			if(gb.isValid(_gs.state) == 666 && !set.contains(_gs))
-				break;
-
-			_gs.state[i] += 1;
-		}
-		set.add(_gs);
-
-		gs = new GameState(_gs);
-
+	public void mousePressed(MouseEvent e)
+	{
+		//state[rand.nextInt(22)] += (rand.nextInt(2) == 0 ? -1 : 1);
+		state = viz.stack.pop().state;
 
 		for(int i = 0; i < 11; i++)
-		System.out.print("(" + gs.state[2 * i] + "," +
-			gs.state[2 * i + 1] + ") ");
+		System.out.print("(" + state[2 * i] + "," +
+			state[2 * i + 1] + ") ");
 		System.out.println();
 
 		viz.repaint();
-
-		// for(int i = 0; i < gb.board.length; ++i) {
-		// 	for(int j = 0; j < gb.board[i].length; ++j) {
-		// 		System.out.print((gb.board[i][j]?1:0) + " ");
-		// 	}
-		// 	System.out.println();
-		// }
-		// System.out.println("=============================================");
 	}
 
 	public void mouseReleased(MouseEvent e) {    }
@@ -90,28 +49,32 @@ class View extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent e) {    }
 
 	// Draw a block
-	public void b(int x, int y) {
+	public void b(int x, int y)
+	{
 		graphics.fillRect(size * x, size * y, size, size);
 	}
 
 	// Draw a 3-block piece
 	public void shape(int id, int red, int green, int blue,
-		int x1, int y1, int x2, int y2, int x3, int y3) {
+		int x1, int y1, int x2, int y2, int x3, int y3)
+	{
 		graphics.setColor(new Color(red, green, blue));
-		b(gs.state[2 * id] + x1, gs.state[2 * id + 1] + y1);
-		b(gs.state[2 * id] + x2, gs.state[2 * id + 1] + y2);
-		b(gs.state[2 * id] + x3, gs.state[2 * id + 1] + y3);
+		b(state[2 * id] + x1, state[2 * id + 1] + y1);
+		b(state[2 * id] + x2, state[2 * id + 1] + y2);
+		b(state[2 * id] + x3, state[2 * id + 1] + y3);
 	}
 
 	// Draw a 4-block piece
-	public void shape(int id, int red, int green, int blue, int x1, int y1,
-		int x2, int y2, int x3, int y3, int x4, int y4) {
-
+	public void shape(int id, int red, int green, int blue,
+		int x1, int y1, int x2, int y2,
+		int x3, int y3, int x4, int y4)
+	{
 		shape(id, red, green, blue, x1, y1, x2, y2, x3, y3);
-		b(gs.state[2 * id] + x4, gs.state[2 * id + 1] + y4);
+		b(state[2 * id] + x4, state[2 * id + 1] + y4);
 	}
 
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g)
+	{
 		// Draw the black squares
 		graphics = g;
 		g.setColor(new Color(0, 0, 0));
@@ -138,10 +101,12 @@ class View extends JPanel implements MouseListener {
 	}
 }
 
-@SuppressWarnings("serial")
-public class Viz extends JFrame {
-
-	public Viz() throws Exception {
+public class Viz extends JFrame
+{
+	Stack<GameState> stack;
+	public Viz(Stack<GameState> s) throws Exception
+	{
+		stack = s;
 		View view = new View(this);
 		view.addMouseListener(view);
 		this.setTitle("Puzzle");
@@ -151,7 +116,8 @@ public class Viz extends JFrame {
 		this.setVisible(true);
 	}
 
-	public static void main(String[] args) throws Exception {
-		new Viz();
-	}
+	// public static void main(String[] args) throws Exception
+	// {
+	// 	//new Viz();
+	// }
 }
