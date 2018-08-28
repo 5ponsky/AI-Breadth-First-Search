@@ -13,4 +13,12 @@ class StateComparator implements Comparator<GameState> {
 
     return 0;
   }
+
+  public boolean equals(GameState a, GameState b) {
+    for(int i = 0; i < 22; ++i) {
+      if(a.state[i] != b.state[i])
+        return false;
+    }
+    return true;
+  }
 }

@@ -3,6 +3,7 @@ import java.util.TreeSet;
 import java.util.Queue;
 import java.util.Stack;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 
 class Main {
@@ -17,64 +18,61 @@ class Main {
 		GameBoard gb = new GameBoard();
 
 		// Empty Queue Q (Stack?)
-
+		LinkedList<GameState> queue = new LinkedList<GameState>();
 
 		GameState root = new GameState(null);
 		set.add(root);
+		queue.push(root);
 
-		Iterator<GameState> itr = set.descendingIterator();
-		//
+		//Iterator<GameState> itr = queue.iterator();
 
 		int x = 0;
-		while(!set.isEmpty()) {
-			// Get next in tree
-			//GameState current = itr.next();
-			GameState current = set.first();
+		boolean done = false;
+		while(!done) {
+			GameState current = queue.poll();
 
-			// Check if current state is the completed one
-			if(gb.completed(current)) {
-				// output solutions
-				writeSolution(current);
-				break;
-			} else {
-				// Continue to explore solutions
-				GameState newState;
-				for(int i = 0; i < 22; ++i) {
+			GameState newState;
+			for(int i = 0; i < 22; ++i) {
+				newState = new GameState(current);
+
+				newState.state[i] += 1;
+				if(gb.isValid(newState.state) && !set.contains(newState)) {
+					set.add(newState);
+					queue.push(newState);
+
+					// Check if this state is the completed one
+					if(gb.completed(current)) {
+						done = true;
+						break;
+					}
+
 					newState = new GameState(current);
-
-					newState.state[i] += 1;
-					if(gb.isValid(newState.state) && !set.contains(newState)) {
-						set.add(newState);
-						if(gb.completed(current)) {
-							// output solutions
-							writeSolution(current);
-							break;
-						}
-
-						newState = new GameState(current);
-					} else
-						newState.state[i] += -1;
-
+				} else
 					newState.state[i] += -1;
-					if(gb.isValid(newState.state) && !set.contains(newState)) {
-						set.add(newState);
-						if(gb.completed(current)) {
-							// output solutions
-							writeSolution(current);
-							break;
-						}
-					} else
-						newState.state[i] += 1;
 
+				newState.state[i] += -1;
+				if(gb.isValid(newState.state) && !set.contains(newState)) {
+					set.add(newState);
+					queue.push(newState);
+
+					// Check if this state is the completed one
+					if(gb.completed(current)) {
+						done = true;
+						break;
+					}
+				} else
+					newState.state[i] += 1;
+			}
+
+				++x;
+				if(x > 500) done = true;
+
+				if(done) {
+					writeSolution(current);
+					break;
 				}
 			}
-			// for(GameState g : set) {
-			// 	System.out.println(g.toString());
-			// } System.out.println("----------------------------------");
-			set.remove(current);
-			++x;
-			//if(x > 1) break;
-		}
+
 		//
 		// for(GameState g : set) {
 		// 	System.out.println(g.toString());
@@ -92,8 +90,10 @@ class Main {
 		}
 
 		StringBuilder sb = new StringBuilder();
+		int x = 0;
 		while(!stack.empty()) {
-			sb.append(stack.pop().toString());
+			sb.append(x + " " + stack.pop().toString() + '\n');
+			++x;
 		}
 		System.out.println(sb);
 	}
